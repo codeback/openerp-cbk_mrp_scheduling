@@ -26,17 +26,6 @@ from datetime import datetime, timedelta
 from openerp.tools.translate import _
 
 import pytz
-import pdb
-
-class mrp_routing_workcenter(osv.osv):
-    """añadimos los nuevos campos"""
-    
-    _name = "mrp.routing.workcenter"
-    _inherit = "mrp.routing.workcenter"
-
-    _columns = {   
-        'ref_hour_nbr': fields.float('Number of Hours (Reference)')
-    }
 
 class mrp_production(osv.osv):
     _name = 'mrp.production'
