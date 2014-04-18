@@ -59,7 +59,10 @@ class mrp_production(osv.osv):
             
             str_date_start_from = datetime.strftime(date_start_from, '%Y-%m-%d %H:%M:%S')
             
-            args = [('date_planned', '>=', str_date_start_from)]
+            args = [('date_planned', '>=', str_date_start_from), 
+                ('state', '!=', "in_production"), 
+                ('state', '!=', "done")
+            ]
             
             productions_ids = self.search(cr, uid, args, order='date_planned asc')
             productions = self.browse(cr, uid, productions_ids)
