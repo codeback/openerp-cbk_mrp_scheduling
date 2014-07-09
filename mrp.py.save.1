@@ -26,6 +26,7 @@ from datetime import datetime, timedelta
 from openerp.tools.translate import _
 
 import pytz
+import pdb
 
 class mrp_production(osv.osv):
     _name = 'mrp.production'
@@ -38,7 +39,7 @@ class mrp_production(osv.osv):
 
         date_planned = datetime.strptime(last_productions.date_planned, '%Y-%m-%d %H:%M:%S') + timedelta(hours=last_productions.hour_total)
         data["date_planned"] = date_planned.strftime('%Y-%m-%d %H:%M:%S')
-        	        
+                
         return super(mrp_production, self).create(cr, uid, data, context=context)
 
     def action_confirm(self, cr, uid, ids, context=None):
@@ -52,8 +53,10 @@ class mrp_production(osv.osv):
     def reorder_productions(self, cr, uid, date_start_from=datetime.now(), date_start_to=datetime.now(), context=None):
 
         work_sched_model = self.pool.get('resource.calendar')
-        work_sched_ids = work_sched_model.search(cr, uid, [("name", "=", "Fábrica")])      
-            
+        work_sched_ids = work_sched_model.search(cr, uid, [("name", "=", "Fábrica")])
+          
+        pdb.set_trace() 
+              
         if len(work_sched_ids) > 0:
             work_sched = work_sched_model.browse(cr, uid, work_sched_ids)[0]
             
@@ -72,6 +75,7 @@ class mrp_production(osv.osv):
                 # Calcular fecha de inicio del trabajo
                 if i < 1:
                     date_planned = date_start_to #datetime.strptime(production.date_planned, '%Y-%m-%d %H:%M:%S')
+n
                     week_day = date_planned.isocalendar()[2]
                     if week_day > 5:
                         offset_hours = (week_day-5) * 24

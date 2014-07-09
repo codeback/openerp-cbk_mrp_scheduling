@@ -26,6 +26,7 @@ from datetime import datetime, timedelta
 from openerp.tools.translate import _
 
 import pytz
+import pdb
 
 class mrp_production(osv.osv):
     _name = 'mrp.production'
@@ -53,7 +54,9 @@ class mrp_production(osv.osv):
 
         work_sched_model = self.pool.get('resource.calendar')
         work_sched_ids = work_sched_model.search(cr, uid, [("name", "=", "Fábrica")])      
-            
+          
+	pdb.set_trace()
+    
         if len(work_sched_ids) > 0:
             work_sched = work_sched_model.browse(cr, uid, work_sched_ids)[0]
             
