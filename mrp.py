@@ -39,15 +39,19 @@ class mrp_production(osv.osv):
         date_planned = datetime.strptime(last_productions.date_planned, '%Y-%m-%d %H:%M:%S') + timedelta(hours=last_productions.hour_total)
         data["date_planned"] = date_planned.strftime('%Y-%m-%d %H:%M:%S')
                 
-        return super(mrp_production, self).create(cr, uid, data, context=context)
+        mrp_prod = super(mrp_production, self).create(cr, uid, data, context=context)
 
-    def action_confirm(self, cr, uid, ids, context=None):
+        self.reorder_productions(cr, uid, date_start_from=date_planned, date_start_to=date_planned, context=context)
 
-        shipment_id = super(mrp_production, self).action_confirm(cr, uid, ids, context=context)
+        return mrp_prod
 
-        self.reorder_productions(cr, uid)
+    # def action_confirm(self, cr, uid, ids, context=None):
+    #     
+    #     shipment_id = super(mrp_production, self).action_confirm(cr, uid, ids, context=context)
 
-        return shipment_id
+    #     self.reorder_productions(cr, uid)
+
+    #     return shipment_id
 
     def reorder_productions(self, cr, uid, date_start_from=datetime.now(), date_start_to=datetime.now(), context=None):
 
